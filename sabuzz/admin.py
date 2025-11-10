@@ -1,11 +1,10 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Profile
+from .models import Post, Category, Comment, Profile, Like, Subscriber
 
 # Register your models here.
+admin.site.register(Profile)
 admin.site.register(Category)
-
-class CatergoryAdmin(admin.ModelAdmin):
-list_display= ('name')
 admin.site.register(Post)
 admin.site.register(Comment)
-admin.site.register(Profile)
+admin.site.register(Like)
+admin.site.register(Subscriber)
