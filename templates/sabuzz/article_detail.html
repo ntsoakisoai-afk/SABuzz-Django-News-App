@@ -1,0 +1,218 @@
+/* =========================
+   General Styles
+========================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* =========================
+   Navbar
+========================= */
+nav {
+    background-color: #003366;
+    padding: 10px 20px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    position: relative;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    display: block;
+}
+
+nav ul li a:hover {
+    background-color: #0055aa;
+    border-radius: 4px;
+}
+
+/* Dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #0055aa;
+    min-width: 150px;
+    top: 35px;
+    z-index: 1;
+}
+
+.dropdown-content li {
+    margin: 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Search bar */
+nav input[type="text"] {
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+}
+
+/* =========================
+   Featured Section
+========================= */
+.featured {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.featured h2 {
+    margin-top: 0;
+}
+
+.featured img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* =========================
+   Articles Section
+========================= */
+.articles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px auto;
+    width: 90%;
+}
+
+.article-card {
+    background-color: #fff;
+    width: 250px;
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.article-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.article-card h2 {
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
+
+.article-card p {
+    font-size: 14px;
+    color: #333;
+}
+
+.article-card a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #003366;
+    font-weight: bold;
+}
+
+.article-card a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Article Detail Page
+========================= */
+.article-detail {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.article-detail img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* =========================
+   Login Page
+========================= */
+.login-section {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.login-section h2 {
+    text-align: center;
+}
+
+.login-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-section label {
+    margin: 10px 0 5px;
+}
+
+.login-section input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.login-section button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-section button:hover {
+    background-color: #0055aa;
+}
+
+/* =========================
+   Footer
+========================= */
+footer {
+    background-color: #003366;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
