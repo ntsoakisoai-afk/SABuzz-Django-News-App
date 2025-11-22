@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, Profile, Comment, Subscriber
+from .models import Post, Profile, Comment, Subscriber, Podcasts, Video
 
 class SignUpform(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -45,4 +45,19 @@ class SubscriberForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'Enter your email'}),
         }
 
+class PodcastsForm(forms.ModelForm):
+    class Meta:
+        model = Podcasts
+        fields = ['title', 'description', 'audio_file']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
 
+class VideoForm(forms.ModelForm):
+    class Meta:
+        model = Video
+        fields = ['title', 'description', 'video_file']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+        

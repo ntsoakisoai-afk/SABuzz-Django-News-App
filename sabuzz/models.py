@@ -41,7 +41,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    status = models.CharField(max_length=10, choices=status_choices, default='Draft')
+    status = models.CharField(max_length=10, choices=status_choices, default='draft')
     views = models.PositiveIntegerField(default=0)
     likes =models.ManyToManyField(User,related_name='liked_posts', blank=True)
 
@@ -73,3 +73,23 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+class Podcasts(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    audio_file = models.FileField(upload_to='podcasts/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    video_file = models.FileField(upload_to='videos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+

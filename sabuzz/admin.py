@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Profile, Like, Subscriber
+from .models import Post, Category, Comment, Profile, Like, Subscriber,  Podcasts, Video
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
@@ -47,6 +47,20 @@ admin.site.register(Like, LikeAdmin)
 class SubscriberAdmin(admin.ModelAdmin):
     list_display =('user', 'email', 'subscribed_at')
     search_fields = ('user__username', 'email')
-    list_filter = ('subscribed_at')
+    list_filter = ('subscribed_at',)
 
 admin.site.register(Subscriber, SubscriberAdmin)
+
+class PodcastsAdmin(admin.ModelAdmin):
+    list_display = ("title", "description", "uploaded_at")
+    search_fields = ("title",)
+    list_filter = ("uploaded_at",)
+
+admin.site.register(Podcasts, PodcastsAdmin)
+
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'uploaded_at')
+    search_fields = ('title', 'description')
+    list_filter = ('uploaded_at',)
+
+admin.site.register(Video, VideoAdmin)
