@@ -6,17 +6,25 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     ROLE_CHOICE = [
         ('admin', 'Admin'),
+        ('journalist', 'Journalist'),
+        ('publisher', 'Publisher')
         ('subscriber', 'Subscriber'),
         ('user', 'User'),
     ]
     user =models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICE, default='user')
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
-    is_subscribed = models.BooleanField(default=False)
-    subscription_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} Profile"
+    
+class Publisher(model.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    api_key = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.names
 
 class Category (models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -36,13 +44,13 @@ class Post(models.Model):
     content = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_posted = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
+    status = models.CharField(max_length=10, choices=status_choices, default='draft')
+    source = models.CharField(max_length=255, blank=True, null=True)
+    views = models.PositiveIntegerField(default=0)
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    status = models.CharField(max_length=10, choices=status_choices, default='draft')
-    views = models.PositiveIntegerField(default=0)
-    likes =models.ManyToManyField(User,related_name='liked_posts', blank=True)
 
     def __str__(self):
         return self.title
@@ -62,35 +70,22 @@ class Like(models.Model):
     post = models.ForeignKey(Post, related_name='liked_posts', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('post', 'user')
+
     def __str__(self):
         return f"{self.user.username} liked {self.post.title}"
     
+# Subscribers for free newsletter
+
 class Subscriber(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField(unique=True)
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.email
-
-class Podcasts(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    audio_file = models.FileField(upload_to='podcasts/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
-class Video(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    video_file = models.FileField(upload_to='videos/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
+    
+#This is for premium users for premium content
 
 class Premium(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -101,3 +96,24 @@ class Premium(models.Model):
     
     def __str__(self):
         return f"Premium subscription for {self.user.username}"
+
+# Podcasts for premium content
+
+class Podcasts(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    audio_file = models.FileField(upload_to='podcasts/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+# Video Model premium content
+class Video(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    video_file = models.FileField(upload_to='videos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
