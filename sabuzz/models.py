@@ -18,7 +18,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
     
-class Publisher(model.Model):
+class Publisher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     api_key = models.CharField(max_length=255, unique=True)
