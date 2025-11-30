@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Profile, Like, Subscriber,  Podcasts, Video
+from .models import Post, Category, Comment, Profile, Like, NewsletterSubscriber, Premium,  Podcasts, Video
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'role', 'is_subscribed', 'subscription_date')
-    list_filter = ('role', 'is_subscribed')
+    list_display = ('user', 'role')
+    list_filter = ('role',)
     search_fields = ('user__username', 'user__email')
     
 admin.site.register(Profile, ProfileAdmin)
@@ -22,7 +22,6 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     date_hierarchy = 'created_at'
     ordering = ('status', 'created_at')
-    list_per_page = 10
 
 admin.site.register(Post, PostAdmin)
 
@@ -30,11 +29,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'user', 'date_posted', 'approved')
     list_filter = ('approved', 'date_posted')
     search_fields = ('user__username', 'post__title', 'text')
-    actions = ['approve_comments']
-
-    def approve_comments(self, request, queryset):
-        queryset.update(approved=True)
-    approve_comments.short_description = "Approved selected comments"
 
 admin.site.register(Comment, CommentAdmin)
 
@@ -44,23 +38,22 @@ class LikeAdmin(admin.ModelAdmin):
 
 admin.site.register(Like, LikeAdmin)
 
-class SubscriberAdmin(admin.ModelAdmin):
-    list_display =('user', 'email', 'subscribed_at')
-    search_fields = ('user__username', 'email')
-    list_filter = ('subscribed_at',)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display =('email', 'subscribed_at')
+    search_fields = ('email',)
 
-admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(NewsletterSubscriber, NewsletterAdmin)
+
+class PremiumAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_active', 'subscribed_at')
+    list_filter = ('is_active',)
 
 class PodcastsAdmin(admin.ModelAdmin):
-    list_display = ("title", "description", "uploaded_at")
-    search_fields = ("title",)
-    list_filter = ("uploaded_at",)
+    list_display = ('title', 'uploaded_at', 'is_premium')
 
 admin.site.register(Podcasts, PodcastsAdmin)
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'uploaded_at')
-    search_fields = ('title', 'description')
-    list_filter = ('uploaded_at',)
+    list_display = ('title', 'uploaded_at', 'is_premium')
 
 admin.site.register(Video, VideoAdmin)
