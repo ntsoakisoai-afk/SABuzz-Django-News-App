@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -7,7 +8,7 @@ class Profile(models.Model):
     ROLE_CHOICE = [
         ('admin', 'Admin'),
         ('journalist', 'Journalist'),
-        ('publisher', 'Publisher')
+        ('publisher', 'Publisher'),
         ('subscriber', 'Subscriber'),
         ('user', 'User'),
     ]
@@ -41,6 +42,7 @@ class Post(models.Model):
     ]
 
     title = models.CharField(max_length=200)
+    slug =models.SlugField(unique=True, blank=True)
     content = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -48,9 +50,13 @@ class Post(models.Model):
     status = models.CharField(max_length=10, choices=status_choices, default='draft')
     source = models.CharField(max_length=255, blank=True, null=True)
     views = models.PositiveIntegerField(default=0)
-
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)[200]
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -78,7 +84,7 @@ class Like(models.Model):
     
 # Subscribers for free newsletter
 
-class Subscriber(models.Model):
+class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
@@ -104,7 +110,7 @@ class Podcasts(models.Model):
     description = models.TextField(blank=True, null=True)
     audio_file = models.FileField(upload_to='podcasts/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
+    is_premium = models.BooleanField(default=True)
     def __str__(self):
         return self.title
 
@@ -114,6 +120,7 @@ class Video(models.Model):
     description = models.TextField(blank=True, null=True)
     video_file = models.FileField(upload_to='videos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
+    is_premium = models.BooleanField(default=True)
+    
     def __str__(self):
         return self.title
