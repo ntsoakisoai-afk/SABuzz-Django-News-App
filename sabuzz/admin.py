@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Profile, Like, NewsletterSubscriber, Premium,  Podcasts, Video
+from .models import Post, Category, Comment, Profile, Like, NewsletterSubscriber, Podcasts, Video
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
@@ -43,21 +43,15 @@ class NewsletterAdmin(admin.ModelAdmin):
 
 admin.site.register(NewsletterSubscriber, NewsletterAdmin)
 
-class PremiumAdmin(admin.ModelAdmin):
-    list_display = ('user', 'is_active', 'subscribed_at')
-    list_filter = ('is_active',)
-    search_fields = ('user__username', 'stripe_customer_id')
-
-admin.site.register(Premium, PremiumAdmin)
 
 class PodcastsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'uploaded_at', 'is_premium')
+    list_display = ('title', 'uploaded_at')
     search_fields = ('title')
 
 admin.site.register(Podcasts, PodcastsAdmin)
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'uploaded_at', 'is_premium')
+    list_display = ('title', 'uploaded_at')
     search_fields = ('title')
 
 admin.site.register(Video, VideoAdmin)

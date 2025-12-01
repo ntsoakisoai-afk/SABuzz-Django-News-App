@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-import stripe
 
-load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sabuzz', #adds the app
+    'sabuzz.apps.SabuzzConfig', #adds the app
     'django_extensions',
-    'rest_framework'
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -130,9 +129,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRIPE_SECRET_KEY = os.getenv('STRIPE_API_KEY')
-STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
-STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
-STRIPE_PRICE_ID = os.getenv('STRIPE_PRICE_ID')
 
-stripe.api_key = STRIPE_SECRET_KEY
+MEDIA_URL = '/media/'   # URL to access media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Folder to store uploaded files

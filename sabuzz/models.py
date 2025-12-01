@@ -8,7 +8,6 @@ class Profile(models.Model):
     ROLE_CHOICE = [
         ('admin', 'Admin'),
         ('journalist', 'Journalist'),
-        ('subscriber', 'Subscriber'),
         ('user', 'User'),
     ]
     user =models.OneToOneField(User, on_delete=models.CASCADE)
@@ -57,7 +56,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)[200]
+            self.slug = slugify(self.title)[:200]
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -93,26 +92,15 @@ class NewsletterSubscriber(models.Model):
     def __str__(self):
         return self.email
     
-#This is for premium users for premium content
 
-class Premium(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
-    stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)
-    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True)
-    subscribed_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"Premium subscription for {self.user.username}"
-
-# Podcasts for premium content
+# Podcasts
 
 class Podcasts(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     audio_file = models.FileField(upload_to='podcasts/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    is_premium = models.BooleanField(default=True)
+
     def __str__(self):
         return self.title
 
@@ -122,7 +110,6 @@ class Video(models.Model):
     description = models.TextField(blank=True, null=True)
     video_file = models.FileField(upload_to='videos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    is_premium = models.BooleanField(default=True)
-    
+
     def __str__(self):
         return self.title
