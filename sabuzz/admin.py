@@ -19,7 +19,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'status', 'created_at')
     list_filter = ('status', 'author', 'category')
     search_fields = ('title', 'author__username')
-    ordering = ('created_at')
+    ordering = ('created_at',)
     prepopulated_fields ={'slug': ('title',)}
 
 admin.site.register(Post, PostAdmin)
@@ -46,12 +46,12 @@ admin.site.register(NewsletterSubscriber, NewsletterAdmin)
 
 class PodcastsAdmin(admin.ModelAdmin):
     list_display = ('title', 'uploaded_at')
-    search_fields = ('title')
+    search_fields = ('title',)
 
 admin.site.register(Podcasts, PodcastsAdmin)
 
 class VideoAdmin(admin.ModelAdmin):
     list_display = ('title', 'uploaded_at')
-    search_fields = ('title')
+    search_fields = ('title',)
 
 admin.site.register(Video, VideoAdmin)

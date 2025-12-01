@@ -1,6 +1,7 @@
 # api/urls.py
 from django.urls import path
-from api.views import admin_dashboard, journalist_dashboard, user_dashboard
+from sabuzz.api.views import admin_dashboard, journalist_dashboard, user_dashboard
+from sabuzz.api.views import post_views
 
 urlpatterns = [
     # -------- Admin Dashboard --------
@@ -16,7 +17,8 @@ urlpatterns = [
 
     # -------- User Dashboard --------
     path('user/', user_dashboard.UserDashboard.as_view(), name='user-dashboard'),
-    path('user/posts/', user_dashboard.UserPostList.as_view(), name='user-posts'),
-    path('user/podcasts/', user_dashboard.UserPodcastList.as_view(), name='user-podcasts'),
-    path('user/videos/', user_dashboard.UserVideoList.as_view(), name='user-videos'),
+    path('user/content/', user_dashboard.UserContentAccess.as_view(), name='user-content-access'),
+    path('user/posts/', user_dashboard.UserPostList.as_view(), name='user-post-list'),
+    path('user/podcasts/', user_dashboard.UserPodcastList.as_view(), name='user-podcast-list'),
+    path('user/videos/', user_dashboard.UserVideoList.as_view(), name='user-videos')
 ]

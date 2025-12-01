@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'sabuzz.apps.SabuzzConfig', #adds the app
     'django_extensions',
     'rest_framework',
-    'api',
+    'sabuzz.api',
 ]
 
 MIDDLEWARE = [
