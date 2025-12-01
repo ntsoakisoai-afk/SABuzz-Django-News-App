@@ -65,3 +65,16 @@ class AdminUserManagement(APIView):
                 return Response({"detail": "Invalid role."}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+class AdminApprovePost(APIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+    
+    def post(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=404)
+        post.status = "published"
+        post.save()
+        return Response({"detail": "Post approved."})
+

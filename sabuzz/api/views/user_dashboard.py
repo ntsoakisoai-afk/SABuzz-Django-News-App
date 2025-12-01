@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from sabuzz.permissions import IsUser, IsAdminOrJournalist
-from sabuzz.models import Post, Podcasts, Video
-from sabuzz.api.serializers import PostSerializer, PodcastSerializer, VideoSerializer
+from sabuzz.models import Post, Podcasts, Video, Like, Comment
+from sabuzz.api.serializers import PostSerializer, PodcastSerializer, VideoSerializer, CommentSerializer
 
 class UserDashboard(APIView):
     permission_classes = [IsAuthenticated, IsUser]
@@ -53,4 +53,30 @@ class UserVideoList(APIView):
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)
 
+class UserAddComment(APIView):
+    permission_classes = [IsAuthenticated, IsUser]
 
+    def post(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id, status="published")
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=404)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, post=post)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+class UserLikePost(APIView):
+    permission_classes = [IsAuthenticated, IsUser]
+
+    def post(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id, status="published")
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=404)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
+            like.delete()  # Toggle like off
+            return Response({"detail": "Like removed."})
+        return Response({"detail": "Post liked."})

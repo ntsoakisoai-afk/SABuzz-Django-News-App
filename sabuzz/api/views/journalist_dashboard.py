@@ -49,3 +49,13 @@ class JournalistDrafts(APIView):
         drafts = Post.objects.filter(author=request.user, status="draft")
         serializer = PostSerializer(drafts, many=True)
         return Response(serializer.data)
+
+class JournalistDeletePost(APIView):
+    permission_classes = [IsAuthenticated, IsJournalist]
+    def delete(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk, author=request.user)
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

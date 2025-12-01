@@ -14,6 +14,8 @@ urlpatterns = [
     path('journalist/create/', journalist_dashboard.JournalistCreatePost.as_view(), name='journalist-create-post'),
     path('journalist/update/<int:pk>/', journalist_dashboard.JournalistUpdatePost.as_view(), name='journalist-update-post'),
     path('journalist/drafts/', journalist_dashboard.JournalistDrafts.as_view(), name='journalist-drafts'),
+    path('journalist/delete/<int:pk>/', journalist_dashboard.JournalistDeletePost.as_view(), name='journalist-delete-post'),
+
 
     # -------- User Dashboard --------
     path('user/', user_dashboard.UserDashboard.as_view(), name='user-dashboard'),
