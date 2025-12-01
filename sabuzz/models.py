@@ -8,7 +8,6 @@ class Profile(models.Model):
     ROLE_CHOICE = [
         ('admin', 'Admin'),
         ('journalist', 'Journalist'),
-        ('publisher', 'Publisher'),
         ('subscriber', 'Subscriber'),
         ('user', 'User'),
     ]
@@ -18,7 +17,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
-    
+
+'''
 class Publisher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -26,6 +26,8 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.names
+
+'''
 
 class Category (models.Model):
     name = models.CharField(max_length=100, unique=True)
