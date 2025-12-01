@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Profile, Like, NewsletterSubscriber, Podcasts, Video
+from .models import Post, Category, Comment, Profile, Like, NewsletterSubscriber, Podcasts, Video, Notification
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
@@ -55,3 +55,10 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 admin.site.register(Video, VideoAdmin)
+
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('title', 'notify_type', 'user', 'is_read', 'created_at')
+    list_filter = ('notify_type', 'is_read', 'created_at')
+    search_fields = ('title', 'message')
+
+admin.site.register(Notification)

@@ -3,13 +3,15 @@ from django.urls import path
 from sabuzz.api.views import admin_dashboard, journalist_dashboard, user_dashboard
 from sabuzz.api.views import post_views
 
+# URL patterns for the API
+
 urlpatterns = [
-    # -------- Admin Dashboard --------
+    #Admin Dashboard
     path('admin/', admin_dashboard.AdminDashboard.as_view(), name='admin-dashboard'),
     path('admin/users/', admin_dashboard.AdminUserManagement.as_view(), name='admin-user-list'),
     path('admin/users/<int:user_id>/', admin_dashboard.AdminUserManagement.as_view(), name='admin-user-detail'),
 
-    # -------- Journalist Dashboard --------
+    #Journalist Dashboard
     path('journalist/', journalist_dashboard.JournalistDashboard.as_view(), name='journalist-dashboard'),
     path('journalist/create/', journalist_dashboard.JournalistCreatePost.as_view(), name='journalist-create-post'),
     path('journalist/update/<int:pk>/', journalist_dashboard.JournalistUpdatePost.as_view(), name='journalist-update-post'),
@@ -17,7 +19,7 @@ urlpatterns = [
     path('journalist/delete/<int:pk>/', journalist_dashboard.JournalistDeletePost.as_view(), name='journalist-delete-post'),
 
 
-    # -------- User Dashboard --------
+    #User Dashboard
     path('user/', user_dashboard.UserDashboard.as_view(), name='user-dashboard'),
     path('user/content/', user_dashboard.UserContentAccess.as_view(), name='user-content-access'),
     path('user/posts/', user_dashboard.UserPostList.as_view(), name='user-post-list'),

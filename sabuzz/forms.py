@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Post, Profile, Comment, Podcasts, Video
 
-# ---------------------------
 # User Signup Form
-# ---------------------------
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30, required=False)
@@ -15,18 +14,14 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
-
-# ---------------------------
 # User Login Form
-# ---------------------------
+
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=254, widget=forms.TextInput(attrs={'autofocus': True}))
     password = forms.CharField(label="Password", strip=False, widget=forms.PasswordInput)
 
-
-# ---------------------------
 # Profile Form
-# ---------------------------
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -44,10 +39,8 @@ class PostForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 5}),
         }
 
-
-# ---------------------------
 # Comment Form
-# ---------------------------
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -56,10 +49,8 @@ class CommentForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add your comment here...'}),
         }
 
-
-# ---------------------------
 # Podcasts Form
-# ---------------------------
+
 class PodcastsForm(forms.ModelForm):
     class Meta:
         model = Podcasts
@@ -68,10 +59,8 @@ class PodcastsForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 4}),
         }
 
-
-# ---------------------------
 # Video Form
-# ---------------------------
+
 class VideoForm(forms.ModelForm):
     class Meta:
         model = Video

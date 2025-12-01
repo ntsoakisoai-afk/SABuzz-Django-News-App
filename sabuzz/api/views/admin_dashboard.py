@@ -5,9 +5,8 @@ from rest_framework import status
 from sabuzz.permissions import IsAdmin
 from sabuzz.models import Post, Comment, Like, User, Profile
 
-# ---------------------------
 # Admin Dashboard Overview
-# ---------------------------
+
 class AdminDashboard(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
@@ -34,10 +33,8 @@ class AdminDashboard(APIView):
         }
         return Response(data, status=status.HTTP_200_OK)
 
-
-# ---------------------------
 # Admin User Management
-# ---------------------------
+
 class AdminUserManagement(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 

@@ -104,7 +104,7 @@ class Podcasts(models.Model):
     def __str__(self):
         return self.title
 
-# Video Model premium content
+# Video Model
 class Video(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -113,3 +113,22 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+class Notification(models.Model):
+    NOTIFY_TYPES = [
+        ('post', 'Post'),
+        ('comment', 'Comment'),
+        ('like', 'Like'),
+        ('podcast', 'Podcast'),
+        ('video', 'Video'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    notify_type = models.CharField(max_length=20, choices=NOTIF_TYPES)
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.notif_type} | {self.title}"

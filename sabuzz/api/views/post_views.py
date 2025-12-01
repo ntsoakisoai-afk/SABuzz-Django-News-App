@@ -7,9 +7,8 @@ from sabuzz.models import Post, Comment, Like
 from sabuzz.api.serializers import PostSerializer, CommentSerializer
 from sabuzz.permissions import IsAdmin, IsJournalist, IsUser
 
-# ---------------------------
 # List all published posts (Public / User)
-# ---------------------------
+
 class PostListView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsUser]
@@ -18,18 +17,16 @@ class PostListView(generics.ListAPIView):
         return Post.objects.filter(status="published").order_by('-created_at')
 
 
-# ---------------------------
 # Retrieve single post details
-# ---------------------------
+
 class PostDetailView(generics.RetrieveAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsUser]
     queryset = Post.objects.filter(status="published")
 
 
-# ---------------------------
 # Create a post (Journalist / Admin)
-# ---------------------------
+
 class PostCreateView(generics.CreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsJournalist]
@@ -38,9 +35,9 @@ class PostCreateView(generics.CreateAPIView):
         serializer.save(author=self.request.user)
 
 
-# ---------------------------
+
 # Update a post (Journalist / Admin)
-# ---------------------------
+
 class PostUpdateView(generics.UpdateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsJournalist]
@@ -50,18 +47,15 @@ class PostUpdateView(generics.UpdateAPIView):
         return Post.objects.filter(author=self.request.user)
 
 
-# ---------------------------
 # Delete a post (Admin only)
-# ---------------------------
 class PostDeleteView(generics.DestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsAdmin]
     queryset = Post.objects.all()
 
 
-# ---------------------------
 # Comments for a post
-# ---------------------------
+
 class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsUser]
@@ -79,10 +73,8 @@ class CommentListView(generics.ListAPIView):
         post_id = self.kwargs.get('post_id')
         return Comment.objects.filter(post_id=post_id, approved=True)
 
-
-# ---------------------------
 # Like / Unlike a post
-# ---------------------------
+
 class PostLikeToggle(APIView):
     permission_classes = [IsAuthenticated, IsUser]
 
